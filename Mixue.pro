@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     customerloginwindow.cpp \
+    customerwidget.cpp \
     loginwindow.cpp \
     main.cpp \
     merchantloginwindow.cpp \
@@ -24,12 +25,14 @@ SOURCES += \
 
 HEADERS += \
     customerloginwindow.h \
+    customerwidget.h \
     loginwindow.h \
     merchantloginwindow.h \
     widget.h
 
 FORMS += \
     customerloginwindow.ui \
+    customerwidget.ui \
     loginwindow.ui \
     merchantloginwindow.ui \
     widget.ui
