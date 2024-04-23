@@ -60,29 +60,6 @@
           </layout>
          </widget>
          <widget class="QWidget" name="page_2">
-          <widget class="QScrollArea" name="scrollArea">
-           <property name="geometry">
-            <rect>
-             <x>40</x>
-             <y>40</y>
-             <width>321</width>
-             <height>231</height>
-            </rect>
-           </property>
-           <property name="widgetResizable">
-            <bool>true</bool>
-           </property>
-           <widget class="QWidget" name="scrollAreaWidgetContents">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>319</width>
-              <height>229</height>
-             </rect>
-            </property>
-           </widget>
-          </widget>
           <widget class="QLabel" name="label">
            <property name="geometry">
             <rect>
@@ -107,6 +84,16 @@
            </property>
            <property name="text">
             <string>返回</string>
+           </property>
+          </widget>
+          <widget class="QTableWidget" name="shopTableWidget">
+           <property name="geometry">
+            <rect>
+             <x>40</x>
+             <y>50</y>
+             <width>256</width>
+             <height>192</height>
+            </rect>
            </property>
           </widget>
          </widget>

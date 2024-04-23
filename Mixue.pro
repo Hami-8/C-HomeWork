@@ -28,6 +28,7 @@ HEADERS += \
     customerwidget.h \
     loginwindow.h \
     merchantloginwindow.h \
+    structural.h \
     widget.h
 
 FORMS += \
