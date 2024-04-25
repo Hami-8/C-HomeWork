@@ -3,7 +3,9 @@
 
 #include <QWidget>
 #include<vector>
-#include "structural.h"
+
+#include "order.h"
+
 using namespace std;
 
 namespace Ui {
@@ -30,8 +32,19 @@ private slots:
     void on_homeBackButton_clicked();
 
 
+    void on_selectedShopButton_clicked();
+
+    void on_payButton_clicked();
+
+    void on_cartButton_clicked();
+
+    void on_backToOrderButton_clicked();
+
+    void on_toPayButton_clicked();
+
 private:
     Ui::CustomerWidget *ui;
+    Order * order;
 };
 
 #endif // CUSTOMERWIDGET_H

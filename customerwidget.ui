@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="customerWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="homePageTab">
       <attribute name="title">
@@ -27,7 +27,7 @@
        <item>
         <widget class="QStackedWidget" name="homePage_stacked">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="page">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -96,6 +96,19 @@
             </rect>
            </property>
           </widget>
+          <widget class="QPushButton" name="selectedShopButton">
+           <property name="geometry">
+            <rect>
+             <x>400</x>
+             <y>210</y>
+             <width>80</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string> 确定</string>
+           </property>
+          </widget>
          </widget>
         </widget>
        </item>
@@ -105,16 +118,213 @@
       <attribute name="title">
        <string>点餐</string>
       </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QStackedWidget" name="orderStackedWidget">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="page_3">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QWidget" name="widget" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QLabel" name="shopLabel">
+                <property name="text">
+                 <string>当前店铺：</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="shopLineEdit"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTabWidget" name="menuTabWidget">
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="milkTeaTab">
+              <attribute name="title">
+               <string>醇香奶茶</string>
+              </attribute>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QTableWidget" name="milkTeaTableWidget"/>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="fruitTeaTab">
+              <attribute name="title">
+               <string>真鲜果茶</string>
+              </attribute>
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <widget class="QTableWidget" name="fruitTeaTableWidget"/>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_2" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QPushButton" name="cartButton">
+                <property name="text">
+                 <string>查看购物车</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="toPayButton">
+                <property name="text">
+                 <string>去结算</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_4">
+          <widget class="QLabel" name="cartLabel">
+           <property name="geometry">
+            <rect>
+             <x>9</x>
+             <y>9</y>
+             <width>60</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>已选商品：</string>
+           </property>
+          </widget>
+          <widget class="QTableWidget" name="cartTableWidget">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>70</y>
+             <width>256</width>
+             <height>192</height>
+            </rect>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="backToOrderButton">
+           <property name="geometry">
+            <rect>
+             <x>380</x>
+             <y>10</y>
+             <width>80</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>返回</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="payButton">
+           <property name="geometry">
+            <rect>
+             <x>380</x>
+             <y>250</y>
+             <width>80</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>结算</string>
+           </property>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="orderTab">
       <attribute name="title">
        <string> 订单</string>
       </attribute>
+      <widget class="QTableWidget" name="orderTableWidget">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>40</y>
+         <width>351</width>
+         <height>261</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="myTab">
       <attribute name="title">
        <string>我的</string>
       </attribute>
+      <widget class="QWidget" name="widget_3" native="true">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>40</y>
+         <width>361</width>
+         <height>151</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="nickLabel">
+          <property name="text">
+           <string>昵称：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="nickLineEdit"/>
+        </item>
+        <item row="0" column="2">
+         <widget class="QPushButton" name="changeNickButton">
+          <property name="text">
+           <string>修改</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QPushButton" name="saveNickButton">
+          <property name="text">
+           <string>保存</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="phoneLabel">
+          <property name="text">
+           <string>电话：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="phoneLineEdit"/>
+        </item>
+        <item row="1" column="2">
+         <widget class="QPushButton" name="changePhoneButton">
+          <property name="text">
+           <string>修改</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QPushButton" name="savePhoneButton">
+          <property name="text">
+           <string>保存</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
    </item>

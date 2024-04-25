@@ -21,14 +21,14 @@ void CustomerLoginWindow::on_loginButton_clicked()
     QString password = ui->passwordLineEdit->text();
 
     // 假设用户名和密码验证逻辑为简单的匹配
-    if (username == "customer" && password == "123456") {
+    //if (username == "customer" && password == "123456") {
         // 登录成功，弹出提示框
         QMessageBox::information(this, "登录成功", "欢迎顾客登录！");
         emit loginSucceeded();
-    } else {
+    //} else {
         // 登录失败，弹出提示框
-        QMessageBox::warning(this, "登录失败", "顾客用户名或密码错误！");
-    }
+        //QMessageBox::warning(this, "登录失败", "顾客用户名或密码错误！");
+    //}
 }
 void CustomerLoginWindow::on_exitButton_clicked()
 {

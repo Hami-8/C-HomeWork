@@ -2,13 +2,18 @@
 #define STRUCTURAL_H
 
 #endif // STRUCTURAL_H
+#include<vector>
 
+//店铺信息
 typedef struct Shop
 {
     char shop_name[100];
     char shop_distance[100];
     char shop_time[30];
 }ShopInfo;
+
+
+
 
 
 typedef struct Food
