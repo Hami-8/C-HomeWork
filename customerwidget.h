@@ -2,7 +2,7 @@
 #define CUSTOMERWIDGET_H
 
 #include <QWidget>
-#include<vector>
+
 
 #include "order.h"
 
@@ -21,7 +21,8 @@ public:
     ~CustomerWidget();
     //void showWidget(); // 显示主界面
 
-    void getShop(vector<ShopInfo> ShopVec);   //打印附近店铺界面
+    void getShop(vector<Merchant> ShopVec);   //打印附近店铺界面
+    void getMenu();
 
 
 private slots:
@@ -45,6 +46,7 @@ private slots:
 private:
     Ui::CustomerWidget *ui;
     Order * order;
+    vector<Merchant> ShopVec;
 };
 
 #endif // CUSTOMERWIDGET_H

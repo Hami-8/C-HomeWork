@@ -20,6 +20,7 @@ SOURCES += \
     customerwidget.cpp \
     loginwindow.cpp \
     main.cpp \
+    merchant.cpp \
     merchantloginwindow.cpp \
     order.cpp \
     widget.cpp
@@ -28,6 +29,7 @@ HEADERS += \
     customerloginwindow.h \
     customerwidget.h \
     loginwindow.h \
+    merchant.h \
     merchantloginwindow.h \
     order.h \
     structural.h \

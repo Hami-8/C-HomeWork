@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="customerWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="homePageTab">
       <attribute name="title">
@@ -27,7 +27,7 @@
        <item>
         <widget class="QStackedWidget" name="homePage_stacked">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -60,55 +60,38 @@
           </layout>
          </widget>
          <widget class="QWidget" name="page_2">
-          <widget class="QLabel" name="label">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>10</y>
-             <width>91</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>请选择店铺：</string>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="homeBackButton">
-           <property name="geometry">
-            <rect>
-             <x>400</x>
-             <y>30</y>
-             <width>80</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>返回</string>
-           </property>
-          </widget>
-          <widget class="QTableWidget" name="shopTableWidget">
-           <property name="geometry">
-            <rect>
-             <x>40</x>
-             <y>50</y>
-             <width>256</width>
-             <height>192</height>
-            </rect>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="selectedShopButton">
-           <property name="geometry">
-            <rect>
-             <x>400</x>
-             <y>210</y>
-             <width>80</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string> 确定</string>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>请选择店铺：</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="shopTableWidget"/>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_4" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QPushButton" name="homeBackButton">
+                <property name="text">
+                 <string>返回</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="selectedShopButton">
+                <property name="text">
+                 <string> 确定</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>
