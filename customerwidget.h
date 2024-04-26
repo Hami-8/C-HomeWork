@@ -23,6 +23,7 @@ public:
 
     void getShop(vector<Merchant> ShopVec);   //打印附近店铺界面
     void getMenu();
+    void addToCart(int row,QChar type);
 
 
 private slots:

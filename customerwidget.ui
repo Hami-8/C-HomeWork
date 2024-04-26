@@ -105,7 +105,7 @@
        <item>
         <widget class="QStackedWidget" name="orderStackedWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page_3">
           <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -175,55 +175,38 @@
           </layout>
          </widget>
          <widget class="QWidget" name="page_4">
-          <widget class="QLabel" name="cartLabel">
-           <property name="geometry">
-            <rect>
-             <x>9</x>
-             <y>9</y>
-             <width>60</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>已选商品：</string>
-           </property>
-          </widget>
-          <widget class="QTableWidget" name="cartTableWidget">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>70</y>
-             <width>256</width>
-             <height>192</height>
-            </rect>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="backToOrderButton">
-           <property name="geometry">
-            <rect>
-             <x>380</x>
-             <y>10</y>
-             <width>80</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>返回</string>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="payButton">
-           <property name="geometry">
-            <rect>
-             <x>380</x>
-             <y>250</y>
-             <width>80</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>结算</string>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QLabel" name="cartLabel">
+             <property name="text">
+              <string>已选商品：</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="cartTableWidget"/>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_5" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QPushButton" name="backToOrderButton">
+                <property name="text">
+                 <string>返回</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="payButton">
+                <property name="text">
+                 <string>结算</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>

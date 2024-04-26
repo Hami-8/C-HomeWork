@@ -2,7 +2,7 @@
 #include "ui_customerwidget.h"
 #include "customerloginwindow.h"
 #include<QDebug>
-
+#include<QMessageBox>
 
 CustomerWidget::CustomerWidget(QWidget *parent) :
     QWidget(parent),
@@ -15,14 +15,28 @@ CustomerWidget::CustomerWidget(QWidget *parent) :
     ui->customerWidget->setCurrentIndex(0);
     ui->homePage_stacked->setCurrentIndex(0);
     ui->orderStackedWidget->setCurrentIndex(0);
-    //初始化表格
+    //初始化商店表格
     // 设置选择模式为整行选择
     ui->shopTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->shopTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     // 调整表头，使其适应内容
     ui->shopTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->shopTableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    //ui->shopTableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    //初始化购物车表格
+    QStringList headtext;
+    headtext<<"序号"<<"奶茶名"<<"价格"<<"库存";
+    ui->cartTableWidget->setColumnCount(headtext.count());     //列表设置为和headtext相等
+    ui->cartTableWidget->setHorizontalHeaderLabels(headtext);  //插入表头
+    ui->cartTableWidget->setRowCount(0);
+    // 设置选择模式为整行选择
+    ui->cartTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->cartTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+    // 调整表头，使其适应内容
+    ui->cartTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 
     //将一些lineEdit设置为只读
     ui->shopLineEdit->setReadOnly(1);
@@ -95,20 +109,33 @@ void CustomerWidget::getShop(vector<Merchant> ShopVec)
 void CustomerWidget::getMenu()
 {
     QStringList headtext;
-    headtext<<"序号"<<"奶茶名"<<"价格"<<"库存";
+    headtext<<"序号"<<"奶茶名"<<"价格"<<"库存"<<"选项";
     ui->milkTeaTableWidget->setColumnCount(headtext.count());     //列表设置为和headtext相等
     ui->milkTeaTableWidget->setHorizontalHeaderLabels(headtext);  //插入表头
     ui->milkTeaTableWidget->setRowCount(0);
+    // 设置选择模式为整行选择
+    ui->milkTeaTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->milkTeaTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+    // 调整表头，使其适应内容
+    ui->milkTeaTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 
     QStringList headtext1;
-    headtext1<<"序号"<<"果茶名"<<"价格"<<"库存";
+    headtext1<<"序号"<<"果茶名"<<"价格"<<"库存"<<"选项";
     ui->fruitTeaTableWidget->setColumnCount(headtext1.count());    //列表设置为和headtext相等
     ui->fruitTeaTableWidget->setHorizontalHeaderLabels(headtext1); //插入表头
     ui->fruitTeaTableWidget->setRowCount(0);
+    // 设置选择模式为整行选择
+    ui->fruitTeaTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->fruitTeaTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+    // 调整表头，使其适应内容
+    ui->fruitTeaTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     for (int j=0;j< order->merchant.menu.size();j++)
     {
-        QCharRef type = order->merchant.menu[j].number[0];    //A表示奶茶，B表示果茶
+        QChar type = order->merchant.menu[j].number[0];    //A表示奶茶，B表示果茶
 
         if( type == 'A')    //是奶茶
         {
@@ -123,6 +150,23 @@ void CustomerWidget::getMenu()
             ui->milkTeaTableWidget->setItem(rowcount,1,column1);
             ui->milkTeaTableWidget->setItem(rowcount,2,column2);
             ui->milkTeaTableWidget->setItem(rowcount,3,column3);
+            //添加“添加至购物车”按钮
+            QPushButton *addToCartButton = new QPushButton("添加至购物车");
+            connect(addToCartButton, &QPushButton::clicked, this, [=]() {
+                // 获取按钮所在的单元格
+                QPushButton* button = dynamic_cast<QPushButton*>(sender());
+                //                if (!button) {
+                //                    return; // 如果按钮无效，则退出槽函数
+                //                }
+
+                // 获取按钮所在的行号
+                int row = ui->milkTeaTableWidget->indexAt(button->pos()).row();
+                //qDebug()<<row;
+
+                addToCart(row,'A');
+                QMessageBox::information(this, "提示", "添加成功！");
+            });// 调用槽函数，传入当前行号
+            ui->milkTeaTableWidget->setCellWidget(rowcount,4,addToCartButton);
         }
         else
         {
@@ -138,8 +182,56 @@ void CustomerWidget::getMenu()
             ui->fruitTeaTableWidget->setItem(rowcount,1,column1);
             ui->fruitTeaTableWidget->setItem(rowcount,2,column2);
             ui->fruitTeaTableWidget->setItem(rowcount,3,column3);
+            //添加“添加至购物车”按钮
+            QPushButton *addToCartButton = new QPushButton("添加至购物车");
+            connect(addToCartButton, &QPushButton::clicked, this, [=]() {
+                //qDebug()<<rowcount;
+                addToCart(rowcount,'B');
+                QMessageBox::information(this, "提示", "添加成功！");
+            });// 调用槽函数，传入当前行号
+            ui->fruitTeaTableWidget->setCellWidget(rowcount,4,addToCartButton);
         }
      }
+}
+
+//实现“添加至购物车”槽函数
+void CustomerWidget::addToCart(int row,QChar type) {
+    if(type == 'A')
+    {
+    // 获取当前行的数据
+
+    QString str = ui->milkTeaTableWidget->item(row,0)->text(); //获取序号
+    QString str1 = ui->milkTeaTableWidget->item(row,1)->text();//获取奶茶名
+    QString str2 = ui->milkTeaTableWidget->item(row,2)->text();//获取价格
+
+
+
+    QString str3 = ui->milkTeaTableWidget->item(row,3)->text();//获取库存
+    // 在购物车的TableWidget中添加数据
+    int rowCount = ui->cartTableWidget->rowCount();
+    ui->cartTableWidget->insertRow(rowCount);
+    ui->cartTableWidget->setItem(rowCount, 0, new QTableWidgetItem(str));
+    ui->cartTableWidget->setItem(rowCount, 1, new QTableWidgetItem(str1));
+    ui->cartTableWidget->setItem(rowCount, 2, new QTableWidgetItem(str2));
+    ui->cartTableWidget->setItem(rowCount, 3, new QTableWidgetItem(str3));
+    }
+    else
+    {
+        // 获取当前行的数据
+
+        QString str = ui->fruitTeaTableWidget->item(row,0)->text(); //获取序号
+        QString str1 = ui->fruitTeaTableWidget->item(row,1)->text();//获取奶茶名
+        QString str2 = ui->fruitTeaTableWidget->item(row,2)->text();//获取价格
+
+        QString str3 = ui->fruitTeaTableWidget->item(row,3)->text();//获取库存
+        // 在购物车的TableWidget中添加数据
+        int rowCount = ui->cartTableWidget->rowCount();
+        ui->cartTableWidget->insertRow(rowCount);
+        ui->cartTableWidget->setItem(rowCount, 0, new QTableWidgetItem(str));
+        ui->cartTableWidget->setItem(rowCount, 1, new QTableWidgetItem(str1));
+        ui->cartTableWidget->setItem(rowCount, 2, new QTableWidgetItem(str2));
+        ui->cartTableWidget->setItem(rowCount, 3, new QTableWidgetItem(str3));
+    }
 }
 
 void CustomerWidget::on_selfButton_clicked()
