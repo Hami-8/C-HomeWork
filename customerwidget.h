@@ -24,9 +24,12 @@ public:
     void getShop(vector<Merchant> ShopVec);   //打印附近店铺界面
     void getMenu();
     void addToCart(int row,QChar type);
+    void refresh();    //结算后，刷新菜单界面，购物车界面
 
 
 private slots:
+    void updateTotalPrice();    //更新购物车中的总价钱
+
     void on_selfButton_clicked();
 
     void on_sendButton_clicked();

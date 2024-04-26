@@ -15,6 +15,7 @@ CustomerWidget::CustomerWidget(QWidget *parent) :
     ui->customerWidget->setCurrentIndex(0);
     ui->homePage_stacked->setCurrentIndex(0);
     ui->orderStackedWidget->setCurrentIndex(0);
+    ui->menuTabWidget->setCurrentIndex(0);
     //初始化商店表格
     // 设置选择模式为整行选择
     ui->shopTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -26,7 +27,7 @@ CustomerWidget::CustomerWidget(QWidget *parent) :
 
     //初始化购物车表格
     QStringList headtext;
-    headtext<<"序号"<<"奶茶名"<<"价格"<<"库存";
+    headtext<<"序号"<<"奶茶名"<<"价格"<<"库存" << "操作";
     ui->cartTableWidget->setColumnCount(headtext.count());     //列表设置为和headtext相等
     ui->cartTableWidget->setHorizontalHeaderLabels(headtext);  //插入表头
     ui->cartTableWidget->setRowCount(0);
@@ -62,6 +63,20 @@ CustomerWidget::CustomerWidget(QWidget *parent) :
     ShopVec.push_back(m2);
     getShop(ShopVec);
 
+}
+void CustomerWidget::refresh()
+{
+    // 清空购物车界面的表格
+    ui->cartTableWidget->clearContents();
+    // 清空店铺菜单界面的表格
+    ui->milkTeaTableWidget->clearContents();
+    ui->fruitTeaTableWidget->clearContents();
+
+    // 重新加载店铺菜单界面的内容
+    getMenu();
+
+    // 将总价钱置为0
+    ui->sumLcdNumber->display(0.0);
 }
 
 CustomerWidget::~CustomerWidget()
@@ -109,7 +124,7 @@ void CustomerWidget::getShop(vector<Merchant> ShopVec)
 void CustomerWidget::getMenu()
 {
     QStringList headtext;
-    headtext<<"序号"<<"奶茶名"<<"价格"<<"库存"<<"选项";
+    headtext<<"序号"<<"奶茶名"<<"价格"<<"库存"<<"操作";
     ui->milkTeaTableWidget->setColumnCount(headtext.count());     //列表设置为和headtext相等
     ui->milkTeaTableWidget->setHorizontalHeaderLabels(headtext);  //插入表头
     ui->milkTeaTableWidget->setRowCount(0);
@@ -165,6 +180,8 @@ void CustomerWidget::getMenu()
 
                 addToCart(row,'A');
                 QMessageBox::information(this, "提示", "添加成功！");
+                // 更新总价钱显示
+                updateTotalPrice();
             });// 调用槽函数，传入当前行号
             ui->milkTeaTableWidget->setCellWidget(rowcount,4,addToCartButton);
         }
@@ -188,6 +205,8 @@ void CustomerWidget::getMenu()
                 //qDebug()<<rowcount;
                 addToCart(rowcount,'B');
                 QMessageBox::information(this, "提示", "添加成功！");
+                // 更新总价钱显示
+                updateTotalPrice();
             });// 调用槽函数，传入当前行号
             ui->fruitTeaTableWidget->setCellWidget(rowcount,4,addToCartButton);
         }
@@ -214,6 +233,20 @@ void CustomerWidget::addToCart(int row,QChar type) {
     ui->cartTableWidget->setItem(rowCount, 1, new QTableWidgetItem(str1));
     ui->cartTableWidget->setItem(rowCount, 2, new QTableWidgetItem(str2));
     ui->cartTableWidget->setItem(rowCount, 3, new QTableWidgetItem(str3));
+    //增加删除按钮
+    QPushButton *removeFromCartButton = new QPushButton("删除");
+    connect(removeFromCartButton, &QPushButton::clicked, this, [=]() {
+        // 获取按钮所在的行号
+        int row = ui->cartTableWidget->indexAt(removeFromCartButton->pos()).row();
+
+        // 删除当前行
+        ui->cartTableWidget->removeRow(row);
+        // 弹出删除成功对话框
+        QMessageBox::information(this, "提示", "删除成功！");
+        // 更新总价钱显示
+        updateTotalPrice();
+    });
+    ui->cartTableWidget->setCellWidget(rowCount, 4, removeFromCartButton); // 将删除按钮放置在第5列
     }
     else
     {
@@ -231,7 +264,38 @@ void CustomerWidget::addToCart(int row,QChar type) {
         ui->cartTableWidget->setItem(rowCount, 1, new QTableWidgetItem(str1));
         ui->cartTableWidget->setItem(rowCount, 2, new QTableWidgetItem(str2));
         ui->cartTableWidget->setItem(rowCount, 3, new QTableWidgetItem(str3));
+        //增加删除按钮
+        QPushButton *removeFromCartButton = new QPushButton("删除");
+        connect(removeFromCartButton, &QPushButton::clicked, this, [=]() {
+            // 获取按钮所在的行号
+            int row = ui->cartTableWidget->indexAt(removeFromCartButton->pos()).row();
+
+            // 删除当前行
+            ui->cartTableWidget->removeRow(row);
+            // 弹出删除成功对话框
+            QMessageBox::information(this, "提示", "删除成功！");
+            // 更新总价钱显示
+            updateTotalPrice();
+        });
+        ui->cartTableWidget->setCellWidget(rowCount, 4, removeFromCartButton); // 将删除按钮放置在第5列
     }
+}
+
+//更新购物车中的商品总额
+void CustomerWidget::updateTotalPrice() {
+    double totalPrice = 0.0;
+
+    // 遍历购物车表格，累加每种商品的价格
+    for (int row = 0; row < ui->cartTableWidget->rowCount(); ++row) {
+        // 获取当前行的商品价格，并累加到总价钱上
+        QString priceStr = ui->cartTableWidget->item(row, 2)->text(); // 第3列是价格列
+        double price = priceStr.toDouble();
+        totalPrice += price;
+    }
+    order->m_sum = totalPrice;
+
+    // 将总价钱显示在sumLcdNumber控件上
+    ui->sumLcdNumber->display(totalPrice);
 }
 
 void CustomerWidget::on_selfButton_clicked()
@@ -267,14 +331,40 @@ void CustomerWidget::on_selectedShopButton_clicked()
 
 void CustomerWidget::on_payButton_clicked()
 {
-    ui->customerWidget->setCurrentIndex(2);
+
     //待实现，接收购物车中的菜品，提交给订单界面
+    // 遍历购物车表格，将每个商品添加至订单的FoodVec中
+    for (int row = 0; row < ui->cartTableWidget->rowCount(); ++row) {
+        FoodInfo food;
+        food.number = ui->cartTableWidget->item(row, 0)->text();
+        food.name = ui->cartTableWidget->item(row, 1)->text();
+        food.price = ui->cartTableWidget->item(row, 2)->text().toDouble();
+        food.quatity = ui->cartTableWidget->item(row, 3)->text().toInt();
+        food.post = ""; // 备注暂时为空
+
+        order->FoodVec.push_back(food);
+
+        // 更新对应店铺菜单中的库存
+        for (int i = 0; i < order->merchant.menu.size(); ++i) {
+            if (order->merchant.menu[i].number == food.number) {
+                order->merchant.menu[i].quatity--; // 减去购买的数量
+                break;
+            }
+        }
+    }
+
+
+    // 提示结算成功
+    QMessageBox::information(this, "提示", "结算成功！");
+    refresh();
+    ui->customerWidget->setCurrentIndex(2);
 }
+
 
 void CustomerWidget::on_cartButton_clicked()
 {
     ui->orderStackedWidget->setCurrentIndex(1);
-    //待实现，刷新购物车功能
+
 }
 
 void CustomerWidget::on_backToOrderButton_clicked()

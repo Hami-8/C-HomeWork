@@ -105,7 +105,7 @@
        <item>
         <widget class="QStackedWidget" name="orderStackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="page_3">
           <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -128,7 +128,7 @@
            <item>
             <widget class="QTabWidget" name="menuTabWidget">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="milkTeaTab">
               <attribute name="title">
@@ -185,6 +185,49 @@
            </item>
            <item>
             <widget class="QTableWidget" name="cartTableWidget"/>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_6" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="sumLabel">
+                <property name="text">
+                 <string>总额：</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLCDNumber" name="sumLcdNumber">
+                <property name="font">
+                 <font>
+                  <family>Ubuntu</family>
+                  <pointsize>11</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(204, 0, 0);
+font: 11pt &quot;Ubuntu&quot;;</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </item>
            <item>
             <widget class="QWidget" name="widget_5" native="true">
