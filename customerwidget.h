@@ -25,6 +25,7 @@ public:
     void getMenu();
     void addToCart(int row,QChar type);
     void refresh();    //结算后，刷新菜单界面，购物车界面
+    void refreshOrder();    //点击结算后，刷新订单界面
 
 
 private slots:

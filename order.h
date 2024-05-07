@@ -17,7 +17,10 @@ public:
     vector<FoodInfo> FoodVec;
     double m_sum;    //总额
     bool state;    //订单状态，0为进行中，1为已完成
+    static int num;    //订单序号，从1开始
 
 };
+//extern int Order::num;
+
 
 #endif // ORDER_H

@@ -4,3 +4,4 @@ Order::Order()
 {
 
 }
+int Order::num = 1;

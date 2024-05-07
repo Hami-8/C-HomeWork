@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="customerWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="homePageTab">
       <attribute name="title">
@@ -259,16 +259,11 @@ font: 11pt &quot;Ubuntu&quot;;</string>
       <attribute name="title">
        <string> 订单</string>
       </attribute>
-      <widget class="QTableWidget" name="orderTableWidget">
-       <property name="geometry">
-        <rect>
-         <x>40</x>
-         <y>40</y>
-         <width>351</width>
-         <height>261</height>
-        </rect>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
+        <widget class="QTableWidget" name="orderTableWidget"/>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="myTab">
       <attribute name="title">

@@ -34,9 +34,20 @@ CustomerWidget::CustomerWidget(QWidget *parent) :
     // 设置选择模式为整行选择
     ui->cartTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->cartTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-
     // 调整表头，使其适应内容
     ui->cartTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+
+    // 初始化订单表格
+    QStringList headerLabels;
+    headerLabels << "订单序号" << "配送方式" << "店铺" << "内容" << "状态" << "总额"<<"操作";
+    ui->orderTableWidget->setColumnCount(headerLabels.count());
+    ui->orderTableWidget->setHorizontalHeaderLabels(headerLabels);
+    // 设置选择模式为整行选择
+    ui->orderTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->orderTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    // 调整表头，使其适应内容
+    ui->orderTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 
     //将一些lineEdit设置为只读
@@ -77,6 +88,8 @@ void CustomerWidget::refresh()
 
     // 将总价钱置为0
     ui->sumLcdNumber->display(0.0);
+    //刷新订单页
+    refreshOrder();
 }
 
 CustomerWidget::~CustomerWidget()
@@ -296,6 +309,59 @@ void CustomerWidget::updateTotalPrice() {
 
     // 将总价钱显示在sumLcdNumber控件上
     ui->sumLcdNumber->display(totalPrice);
+}
+
+void CustomerWidget::refreshOrder()
+{
+
+    int rowcount = ui->orderTableWidget->rowCount();
+    ui->orderTableWidget->insertRow(rowcount);
+    //订单序号
+    QTableWidgetItem *column = new QTableWidgetItem(QString::number(order->num));
+    Order::num++;
+    //配送方式
+    QString delivery_way;
+    if(order->delivery_way==0)
+    {
+        delivery_way = "到店自取";
+    }
+    else
+    {
+        delivery_way = "雪王外送";
+    }
+    QTableWidgetItem *column1 = new QTableWidgetItem(delivery_way);
+    //店铺
+    QTableWidgetItem *column2 = new QTableWidgetItem(order->merchant.name);
+    //内容
+    QString content = order->FoodVec[0].name + " 等";
+    QTableWidgetItem *column3 = new QTableWidgetItem(content);
+    //状态
+    QString state;
+    if(order->state==0)
+    {
+        state = "进行中";
+    }
+    else
+    {
+        state = "已完成";
+    }
+    QTableWidgetItem *column4 = new QTableWidgetItem(state);
+    //总额
+    QTableWidgetItem *column5 = new QTableWidgetItem(QString::number(order->m_sum));
+
+    //操作
+    QPushButton *detailButton = new QPushButton("查看详情");
+    connect(detailButton, &QPushButton::clicked, this, [=]() {
+        //在此完善代码，当点击detailButton时，弹出一个对话框，用于显示详细信息
+    });
+
+    ui->orderTableWidget->setItem(rowcount,0,column);
+    ui->orderTableWidget->setItem(rowcount,1,column1);
+    ui->orderTableWidget->setItem(rowcount,2,column2);
+    ui->orderTableWidget->setItem(rowcount,3,column3);
+    ui->orderTableWidget->setItem(rowcount,4,column4);
+    ui->orderTableWidget->setItem(rowcount,5,column5);
+    ui->orderTableWidget->setCellWidget(rowcount, 6, detailButton);
 }
 
 void CustomerWidget::on_selfButton_clicked()
