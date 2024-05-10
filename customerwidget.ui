@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="customerWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="homePageTab">
       <attribute name="title">

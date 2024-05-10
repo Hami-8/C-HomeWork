@@ -2,6 +2,11 @@
 #define CUSTOMERWIDGET_H
 
 #include <QWidget>
+#include <QSqlQuery>
+#include <QSqlError>
+#include<QSqlDatabase>
+#include<QMessageBox>
+#include<QDebug>
 
 
 #include "order.h"
@@ -26,7 +31,7 @@ public:
     void addToCart(int row,QChar type);
     void refresh();    //结算后，刷新菜单界面，购物车界面
     void refreshOrder();    //点击结算后，刷新订单界面
-
+    void connectsql();
 
 private slots:
     void updateTotalPrice();    //更新购物车中的总价钱
@@ -52,6 +57,7 @@ private:
     Ui::CustomerWidget *ui;
     Order * order;
     vector<Merchant> ShopVec;
+    QSqlDatabase db;
 };
 
 #endif // CUSTOMERWIDGET_H

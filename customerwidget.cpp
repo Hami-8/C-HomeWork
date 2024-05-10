@@ -11,6 +11,7 @@ CustomerWidget::CustomerWidget(QWidget *parent) :
     ui->setupUi(this);
     //初始化订单
     order = new Order;
+    connectsql();
     //初始化各个界面的默认值
     ui->customerWidget->setCurrentIndex(0);
     ui->homePage_stacked->setCurrentIndex(0);
@@ -52,6 +53,8 @@ CustomerWidget::CustomerWidget(QWidget *parent) :
 
     //将一些lineEdit设置为只读
     ui->shopLineEdit->setReadOnly(1);
+    ui->nickLineEdit->setReadOnly(1);
+    ui->phoneLineEdit->setReadOnly(1);
 
     //先设定一组店铺
     QDateTime openingTime= QDateTime::fromString("09:00", "hh:mm"); // 营业开始时间 9:00
@@ -74,6 +77,27 @@ CustomerWidget::CustomerWidget(QWidget *parent) :
     ShopVec.push_back(m2);
     getShop(ShopVec);
 
+}
+
+void CustomerWidget::connectsql()
+{
+    db = QSqlDatabase::addDatabase("QODBC");
+    db.setHostName("127.0.0.1");
+    db.setPort(3306);
+    db.setDatabaseName("Mixue_64");
+    db.setUserName("root");
+    db.setPassword("abc000000");
+    db.open();
+    bool ok=db.open();
+    if(ok)
+    {
+        qDebug()<<"数据库连接成功！";
+    }
+    else
+    {
+       QMessageBox::information(this,"infor", "link failed");
+       qDebug()<<"error open database because"<<db.lastError().text();
+    }
 }
 void CustomerWidget::refresh()
 {

@@ -2,6 +2,11 @@
 #define CUSTOMERLOGINWINDOW_H
 
 #include <QWidget>
+#include <QSqlQuery>
+#include <QSqlError>
+#include<QSqlDatabase>
+#include<QMessageBox>
+#include<QDebug>
 
 
 namespace Ui {
@@ -16,6 +21,8 @@ public:
     explicit CustomerLoginWindow(QWidget *parent = nullptr);
     ~CustomerLoginWindow();
     void showCustomerWidget(); // 显示主界面
+    void connectsql();
+    QString id;
 
 
 private slots:
@@ -27,6 +34,7 @@ signals:
 
 private:
     Ui::CustomerLoginWindow *ui;
+    QSqlDatabase db;
 };
 
 #endif // CUSTOMERLOGINWINDOW_H
