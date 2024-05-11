@@ -47,7 +47,8 @@ void CustomerLoginWindow::on_loginButton_clicked()
     query.exec(QString("select * from Customer where username='%1' and password='%2'").arg(ui->usernameLineEdit->text()).arg(ui->passwordLineEdit->text()));  //建立查询
      if(query.next())
        {
-        id=query.value(0).toString();
+        id=query.value(0).toString().toInt();
+        qDebug() <<id;
         QMessageBox::information(this, "登录成功", "欢迎顾客登录！");
         emit loginSucceeded();
        }
@@ -71,7 +72,8 @@ void CustomerLoginWindow::on_exitButton_clicked()
 }
 void CustomerLoginWindow::showCustomerWidget()
 {
-    CustomerWidget *customerWidget =new CustomerWidget();
+    CustomerWidget *customerWidget =new CustomerWidget(id);
+    //customerWidget->id = id; //把顾客信息传过去
     customerWidget->show();
     this->close();
 }

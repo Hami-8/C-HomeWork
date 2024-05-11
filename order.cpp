@@ -2,6 +2,6 @@
 
 Order::Order()
 {
-
+    state =0;
 }
-int Order::num = 1;
+//int Order::num = 1;

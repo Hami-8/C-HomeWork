@@ -22,7 +22,7 @@ public:
     ~CustomerLoginWindow();
     void showCustomerWidget(); // 显示主界面
     void connectsql();
-    QString id;
+    int id;
 
 
 private slots:

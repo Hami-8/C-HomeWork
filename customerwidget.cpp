@@ -4,13 +4,15 @@
 #include<QDebug>
 #include<QMessageBox>
 
-CustomerWidget::CustomerWidget(QWidget *parent) :
+CustomerWidget::CustomerWidget(int m_id,QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CustomerWidget)
 {
+    this->id = m_id;
     ui->setupUi(this);
     //初始化订单
     order = new Order;
+    //连接数据库
     connectsql();
     //初始化各个界面的默认值
     ui->customerWidget->setCurrentIndex(0);
@@ -56,19 +58,54 @@ CustomerWidget::CustomerWidget(QWidget *parent) :
     ui->nickLineEdit->setReadOnly(1);
     ui->phoneLineEdit->setReadOnly(1);
 
+    //获取用户的昵称和电话，显示到“我的”界面
+    QSqlQuery query(db);
+    //qDebug()<<id;
+    query.exec(QString("select * from Customer where customer_id= %1").arg(id));  //建立查询
+      if(query.next())
+       {
+               username=query.value(1).toString();
+               password=query.value(2).toString();
+               phone=query.value(3).toString();
+               nick=query.value(4).toString();
+       }
+    ui->nickLineEdit->setText(nick);
+    ui->phoneLineEdit->setText(phone);
+
+    //获取当前用户的历史订单信息，显示到“订单”界面；
+    refreshOrder();   //刷新订单列表
+
+    //从数据库中获取店铺信息，打印在”选择店铺”界面
+    query.exec("SELECT * FROM Merchant");
+
+    // 遍历查询结果集
+    while (query.next()) {
+        // 创建商家对象
+        Merchant merchant;
+        merchant.id = query.value("merchant_id").toInt();
+        merchant.name = query.value("name").toString();
+        merchant.locate = query.value("address").toString();
+        merchant.time = query.value("opening_hours").toString();
+        merchant.distance = query.value("distance").toDouble();
+
+        // 将商家对象添加到商家列表中
+        ShopVec.push_back(merchant);
+    }
+
+
     //先设定一组店铺
-    QDateTime openingTime= QDateTime::fromString("09:00", "hh:mm"); // 营业开始时间 9:00
-    QDateTime closingTime= QDateTime::fromString("22:00", "hh:mm"); // 营业结束时间 22:00
-    Time time1;
-    time1.openingTime = openingTime;
-    time1.closingTime = closingTime;
+//    QDateTime openingTime= QDateTime::fromString("09:00", "hh:mm"); // 营业开始时间 9:00
+//    QDateTime closingTime= QDateTime::fromString("22:00", "hh:mm"); // 营业结束时间 22:00
+//    Time time1;
+//    time1.openingTime = openingTime;
+//    time1.closingTime = closingTime;
     Merchant m1,m2;
     m1.name="店铺1";  m2.name = "店铺2";
     m1.distance=1.6; m2.distance = 1.3;
-    m1.time = time1;  m2.time = time1;
-    Food f1; f1.name = "奶茶1";f1.number ="A001";f1.price=12.3;f1.quatity = 100;
-    Food f2; f2.name = "果茶1";f2.number ="B001";f2.price=11.2;f2.quatity = 90;
-    Food f3; f3.name = "奶茶2";f3.number ="A002";f3.price=9.9;f3.quatity = 2;
+    m1.time = "time1";  m2.time = "time2";
+    Food f1; f1.name = "奶茶1";f1.number ="A001";f1.price=12.3;f1.quantity = 100;
+    Food f2; f2.name = "果茶1";f2.number ="B001";f2.price=11.2;f2.quantity = 90;
+    Food f3; f3.name = "奶茶2";f3.number ="A002";f3.price=9.9;f3.quantity = 2;
     m1.menu.push_back(f1);
     m1.menu.push_back(f2);
     m1.menu.push_back(f3);
@@ -143,10 +180,10 @@ void CustomerWidget::getShop(vector<Merchant> ShopVec)
         QTableWidgetItem *column1 = new QTableWidgetItem(distance_string);
 
 
-        QString openingTimeStr = ShopVec[j].time.openingTime.toString("hh:mm");
-        QString closingTimeStr = ShopVec[j].time.closingTime.toString("hh:mm");
+        //QString openingTimeStr = ShopVec[j].time.openingTime.toString("hh:mm");
+        //QString closingTimeStr = ShopVec[j].time.closingTime.toString("hh:mm");
 
-        QString time_string = openingTimeStr + "-" +closingTimeStr;
+        QString time_string = ShopVec[j].time;
         QTableWidgetItem *column2 = new QTableWidgetItem(time_string);
 
 
@@ -174,7 +211,7 @@ void CustomerWidget::getMenu()
 
 
     QStringList headtext1;
-    headtext1<<"序号"<<"果茶名"<<"价格"<<"库存"<<"选项";
+    headtext1<<"序号"<<"果茶名"<<"价格"<<"库存"<<"操作";
     ui->fruitTeaTableWidget->setColumnCount(headtext1.count());    //列表设置为和headtext相等
     ui->fruitTeaTableWidget->setHorizontalHeaderLabels(headtext1); //插入表头
     ui->fruitTeaTableWidget->setRowCount(0);
@@ -187,16 +224,16 @@ void CustomerWidget::getMenu()
 
     for (int j=0;j< order->merchant.menu.size();j++)
     {
-        QChar type = order->merchant.menu[j].number[0];    //A表示奶茶，B表示果茶
+        //QChar type = order->merchant.menu[j].number[0];    //A表示奶茶，B表示果茶
 
-        if( type == 'A')    //是奶茶
+        if( order->merchant.menu[j].category_id==1)    //是奶茶
         {
             int rowcount = ui->milkTeaTableWidget->rowCount();
             ui->milkTeaTableWidget->insertRow(rowcount);
-            QTableWidgetItem *column = new QTableWidgetItem(order->merchant.menu[j].number);
+            QTableWidgetItem *column = new QTableWidgetItem(QString::number(order->merchant.menu[j].id));
             QTableWidgetItem *column1 = new QTableWidgetItem(order->merchant.menu[j].name);
             QTableWidgetItem *column2 = new QTableWidgetItem(QString::number(order->merchant.menu[j].price));
-            QTableWidgetItem *column3 = new QTableWidgetItem(QString::number(order->merchant.menu[j].quatity));
+            QTableWidgetItem *column3 = new QTableWidgetItem(QString::number(order->merchant.menu[j].quantity));
 
             ui->milkTeaTableWidget->setItem(rowcount,0,column);
             ui->milkTeaTableWidget->setItem(rowcount,1,column1);
@@ -226,10 +263,10 @@ void CustomerWidget::getMenu()
         {
             int rowcount = ui->fruitTeaTableWidget->rowCount();
             ui->fruitTeaTableWidget->insertRow(rowcount);
-            QTableWidgetItem *column = new QTableWidgetItem(order->merchant.menu[j].number);
+            QTableWidgetItem *column = new QTableWidgetItem(QString::number(order->merchant.menu[j].id));
             QTableWidgetItem *column1 = new QTableWidgetItem(order->merchant.menu[j].name);
             QTableWidgetItem *column2 = new QTableWidgetItem(QString::number(order->merchant.menu[j].price));
-            QTableWidgetItem *column3 = new QTableWidgetItem(QString::number(order->merchant.menu[j].quatity));
+            QTableWidgetItem *column3 = new QTableWidgetItem(QString::number(order->merchant.menu[j].quantity));
 
 
             ui->fruitTeaTableWidget->setItem(rowcount,0,column);
@@ -335,17 +372,64 @@ void CustomerWidget::updateTotalPrice() {
     ui->sumLcdNumber->display(totalPrice);
 }
 
+//根据数据库信息，刷新OrderVec，并刷新订单界面
 void CustomerWidget::refreshOrder()
 {
+    // 清空订单表格
+    ui->orderTableWidget->clearContents();
+    // 将行数设置为 0，从而删除所有行
+    ui->orderTableWidget->setRowCount(0);
+    OrderVec.clear();
 
+    QSqlQuery query(db);
+    query.exec(QString("SELECT * FROM Orders WHERE customer_id = %1").arg(id));
+
+    // 遍历结果集
+    while (query.next()) {
+
+        // 从结果集中获取每一行的数据，并赋值给 Order 对象
+        order->id= query.value("order_id").toInt();
+        order->delivery_way= query.value("delivery_way").toInt();
+        order->merchant.id= query.value("merchant_id").toInt();
+        order->m_sum = query.value("total_money").toDouble();
+        order->date = query.value("order_date").toDateTime();
+        order->state = query.value("state").toInt();
+
+        //获取订单信息，赋值给Order的FoodVec
+        // 获取订单包含的菜品信息
+        QSqlQuery dishQuery(db);
+        dishQuery.exec(QString("SELECT d.* "
+                               "FROM DishInOrder dio "
+                               "JOIN Dish d ON dio.dish_id = d.dish_id "
+                               "WHERE dio.order_id = %1").arg(order->id));
+
+        // 遍历菜品查询结果集，将菜品信息添加到 Order 的 FoodVec 数组中
+        while (dishQuery.next()) {
+            Food food;
+            food.id = dishQuery.value("dish_id").toInt();
+            food.name = dishQuery.value("name").toString();
+            food.price = dishQuery.value("price").toDouble();
+            food.category_id = dishQuery.value("category_id").toInt();
+            food.quantity = dishQuery.value("quantity").toInt();
+
+            order->FoodVec.push_back(food);
+        }
+        OrderVec.push_back(*order);
+        // 清空当前订单对象
+        order->FoodVec.clear();
+        order->m_sum = 0.0;
+    }
+
+for (const auto& order : OrderVec)
+{
     int rowcount = ui->orderTableWidget->rowCount();
     ui->orderTableWidget->insertRow(rowcount);
     //订单序号
-    QTableWidgetItem *column = new QTableWidgetItem(QString::number(order->num));
-    Order::num++;
+    QTableWidgetItem *column = new QTableWidgetItem(QString::number(order.id));
+    //Order::num++;
     //配送方式
     QString delivery_way;
-    if(order->delivery_way==0)
+    if(order.delivery_way==0)
     {
         delivery_way = "到店自取";
     }
@@ -355,13 +439,13 @@ void CustomerWidget::refreshOrder()
     }
     QTableWidgetItem *column1 = new QTableWidgetItem(delivery_way);
     //店铺
-    QTableWidgetItem *column2 = new QTableWidgetItem(order->merchant.name);
+    QTableWidgetItem *column2 = new QTableWidgetItem(order.merchant.name);
     //内容
-    QString content = order->FoodVec[0].name + " 等";
+    QString content = order.FoodVec[0].name + " 等";
     QTableWidgetItem *column3 = new QTableWidgetItem(content);
     //状态
     QString state;
-    if(order->state==0)
+    if(order.state==0)
     {
         state = "进行中";
     }
@@ -371,12 +455,13 @@ void CustomerWidget::refreshOrder()
     }
     QTableWidgetItem *column4 = new QTableWidgetItem(state);
     //总额
-    QTableWidgetItem *column5 = new QTableWidgetItem(QString::number(order->m_sum));
+    QTableWidgetItem *column5 = new QTableWidgetItem(QString::number(order.m_sum));
 
     //操作
     QPushButton *detailButton = new QPushButton("查看详情");
     connect(detailButton, &QPushButton::clicked, this, [=]() {
         //在此完善代码，当点击detailButton时，弹出一个对话框，用于显示详细信息
+        showOrderDetailDialog(order);
     });
 
     ui->orderTableWidget->setItem(rowcount,0,column);
@@ -386,6 +471,33 @@ void CustomerWidget::refreshOrder()
     ui->orderTableWidget->setItem(rowcount,4,column4);
     ui->orderTableWidget->setItem(rowcount,5,column5);
     ui->orderTableWidget->setCellWidget(rowcount, 6, detailButton);
+
+}
+}
+
+void CustomerWidget::showOrderDetailDialog(const Order& order)
+{
+    // 创建订单详情对话框
+    QDialog *orderDetailDialog = new QDialog(this);
+    orderDetailDialog->setWindowTitle("订单详情");
+
+    // 创建布局
+    QVBoxLayout *layout = new QVBoxLayout(orderDetailDialog);
+
+    // 添加订单详细信息到布局中，待修改
+    QLabel *label = new QLabel("订单详细信息");
+    layout->addWidget(label);
+
+    // 添加按钮到布局中
+    QPushButton *closeButton = new QPushButton("关闭");
+    connect(closeButton, &QPushButton::clicked, orderDetailDialog, &QDialog::close);
+    layout->addWidget(closeButton);
+
+    // 设置布局
+    orderDetailDialog->setLayout(layout);
+
+    // 显示订单详情对话框
+    orderDetailDialog->exec();
 }
 
 void CustomerWidget::on_selfButton_clicked()
@@ -415,6 +527,39 @@ void CustomerWidget::on_selectedShopButton_clicked()
     qDebug()<<row;
     order->merchant = ShopVec[row];
     ui->shopLineEdit->setText(ShopVec[row].name);
+
+    //从数据库中获取当前店铺的菜单
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query(db);
+
+    // 执行 SQL 查询，获取当前店铺id的菜单数据
+//    query.prepare("SELECT d.dish_id, d.name, d.price, d.category_id, d.quantity "
+//                  "FROM DishInMerchant dm "
+//                  "JOIN Dish d ON dm.dish_id = d.dish_id "
+//                  "WHERE dm.merchant_id = :merchantId");
+//    query.bindValue(":merchantId", row+1);
+    query.exec(QString("SELECT d.dish_id, d.name, d.price, d.category_id, d.quantity FROM DishInMerchant dm JOIN Dish d ON dm.dish_id = d.dish_id WHERE dm.merchant_id =%1").arg(row+1));
+    // 遍历查询结果集
+//    if(!query.next())
+//    {
+//        qDebug()<<"Fail";
+//    }
+    while (query.next()) {
+        // 创建菜品对象
+        Food food;
+        food.id = query.value("dish_id").toInt();
+        food.name = query.value("name").toString();
+        food.price = query.value("price").toDouble();
+        food.category_id = query.value("category_id").toInt();
+        food.quantity = query.value("quantity").toInt();
+
+        // 将菜品对象添加到当前店铺的菜单列表中
+        order->merchant.menu.push_back(food);
+
+    }
+
+
+
     //待实现接收店铺的菜单信息
     getMenu();
 }
@@ -422,27 +567,110 @@ void CustomerWidget::on_selectedShopButton_clicked()
 void CustomerWidget::on_payButton_clicked()
 {
 
-    //待实现，接收购物车中的菜品，提交给订单界面
+    //接收购物车中的菜品，提交给订单界面
     // 遍历购物车表格，将每个商品添加至订单的FoodVec中
     for (int row = 0; row < ui->cartTableWidget->rowCount(); ++row) {
         FoodInfo food;
         food.number = ui->cartTableWidget->item(row, 0)->text();
+        food.id = ui->cartTableWidget->item(row, 0)->text().toInt();
         food.name = ui->cartTableWidget->item(row, 1)->text();
         food.price = ui->cartTableWidget->item(row, 2)->text().toDouble();
-        food.quatity = ui->cartTableWidget->item(row, 3)->text().toInt();
+        food.quantity = ui->cartTableWidget->item(row, 3)->text().toInt();
         food.post = ""; // 备注暂时为空
 
         order->FoodVec.push_back(food);
 
+
         // 更新对应店铺菜单中的库存
         for (int i = 0; i < order->merchant.menu.size(); ++i) {
-            if (order->merchant.menu[i].number == food.number) {
-                order->merchant.menu[i].quatity--; // 减去购买的数量
+            if (order->merchant.menu[i].id == food.id) {
+                order->merchant.menu[i].quantity--; // 减去购买的数量
                 break;
             }
         }
     }
 
+    // 将当前订单提交至数据库中
+    QSqlQuery query(db);
+
+    // 插入订单信息到 Orders 表中
+//    query.prepare("INSERT INTO Orders (customer_id, merchant_id, state, delivery_way, total_money) "
+//                  "VALUES (:customer_id, :merchant_id, :state, :delivery_way, :total_money)");
+//    query.bindValue(":customer_id", id);
+//    query.bindValue(":merchant_id", order->merchant.id);
+//    //query.bindValue(":order_date", QDateTime::currentDateTime()); // 当前时间作为订单时间
+//    query.bindValue(":state", 0); // 初始状态为进行中
+//    query.bindValue(":delivery_way", order->delivery_way);
+//    query.bindValue(":total_money", order->m_sum);
+
+    QString queryString = QString("INSERT INTO Orders (customer_id, merchant_id, state, delivery_way, total_money) "
+                                  "VALUES (%1, %2, %3, %4, %5)")
+                            .arg(id)
+                            .arg(order->merchant.id)
+                            .arg(0)
+                            .arg(order->delivery_way)
+                            .arg(order->m_sum);
+    if (!query.exec(queryString)) {
+        qDebug() << "Error inserting order into database:" << query.lastError().text();
+        //return;
+    }
+
+    // 获取刚插入订单的订单号
+    int orderId = query.lastInsertId().toInt();
+
+//    // 插入订单中包含的菜品信息到 DishInOrder 表中
+//    for (const auto& food : order->FoodVec) {
+//        query.prepare("INSERT INTO DishInOrder (order_id, dish_id, count) "
+//                      "VALUES (:order_id, :dish_id, :count)");
+//        query.bindValue(":order_id", orderId);
+//        query.bindValue(":dish_id", food.id);
+//        query.bindValue(":count", food.quantity);
+//        if (!query.exec()) {
+//            qDebug() << "Error inserting dish in order into database:" << query.lastError().text();
+//            return;
+//        }
+//    }
+
+    // 插入订单中包含的菜品信息到 DishInOrder 表中
+    for (const auto& food : order->FoodVec) {
+        QString insertQuery = QString("INSERT INTO DishInOrder (order_id, dish_id, count) "
+                                      "VALUES (%1, %2, %3)")
+                                  .arg(orderId)
+                                  .arg(food.id)
+                                  .arg(1);
+        if (!query.exec(insertQuery)) {
+            qDebug() << "Error inserting dish in order into database:" << query.lastError().text();
+            //return;
+        }
+    }
+
+//    // 更新 Dish 表，减去订单中已购买的菜品的数量
+//    for (const auto& food : order->FoodVec) {
+//        query.prepare("UPDATE Dish SET quantity = quantity - :count WHERE dish_id = :dish_id");
+//        query.bindValue(":count", food.quantity);
+//        query.bindValue(":dish_id", food.id);
+//        if (!query.exec()) {
+//            qDebug() << "Error updating dish quantity in database:" << query.lastError().text();
+//            return;
+//        }
+//    }
+
+    // 更新 Dish 表，减去订单中已购买的菜品的数量
+    for (const auto& food : order->FoodVec) {
+        QString updateQuery = QString("UPDATE Dish SET quantity = quantity - %1 WHERE dish_id = %2")
+                                  .arg(1)
+                                  .arg(food.id);
+        if (!query.exec(updateQuery)) {
+            qDebug() << "Error updating dish quantity in database:" << query.lastError().text();
+            return;
+        }
+    }
+
+    // 清空当前订单对象
+    order->FoodVec.clear();
+    order->m_sum = 0.0;
+
+    //OrderVec.push_back(*order);
 
     // 提示结算成功
     QMessageBox::information(this, "提示", "结算成功！");
@@ -465,4 +693,47 @@ void CustomerWidget::on_backToOrderButton_clicked()
 void CustomerWidget::on_toPayButton_clicked()
 {
     ui->orderStackedWidget->setCurrentIndex(1);
+}
+
+void CustomerWidget::on_changeNickButton_clicked()
+{
+    ui->nickLineEdit->setReadOnly(0);
+}
+
+void CustomerWidget::on_saveNickButton_clicked()
+{
+    nick = ui->nickLineEdit->text();
+    ui->nickLineEdit->setReadOnly(1);
+    //在数据库中修改昵称
+    QSqlQuery query(db);
+    query.exec(QString("update customer set nick='%1' where customer_id= %2").arg(nick).arg(id));
+}
+
+void CustomerWidget::on_changePhoneButton_clicked()
+{
+    ui->phoneLineEdit->setReadOnly(false);
+}
+
+void CustomerWidget::on_savePhoneButton_clicked()
+{
+    //如果手机号格式正确，则能够保存，否则无法保存
+    phone=ui->phoneLineEdit->text();
+    if(IsValidPhoneNumber(phone)==true)
+    {
+        qDebug()<<"格式正确";
+        ui->phoneLineEdit->setReadOnly(true);
+        //在数据库中修改电话号码
+        QSqlQuery query(db);
+        query.exec(QString("update customer set phone='%1' where customer_id='%2'").arg(phone).arg(id));
+    }
+    else {
+        QMessageBox::information(this,"infor", "手机号格式错误");
+    }
+}
+
+//判断手机号格式是否正确
+bool CustomerWidget::IsValidPhoneNumber(const QString & phoneNum)
+{
+    QRegularExpression regex("^1[3456789]\\d{9}$");
+        return regex.match(phoneNum).hasMatch();
 }

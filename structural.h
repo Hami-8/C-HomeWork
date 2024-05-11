@@ -32,11 +32,12 @@ struct Time
 
 typedef struct Food
 {
-    //char table[5]; //桌号
+    int id;
     QString number;//序号    A开头表示奶茶，B开头表示果茶
     QString name; //餐名
     double price; //价格
-    int quatity;//库存
+    int quantity;//库存
+    int category_id; //奶茶种类
     QString post;//备注
 }FoodInfo;
 

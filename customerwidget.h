@@ -22,7 +22,7 @@ class CustomerWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit CustomerWidget(QWidget *parent = nullptr);
+    explicit CustomerWidget(int m_id,QWidget *parent = nullptr);
     ~CustomerWidget();
     //void showWidget(); // 显示主界面
 
@@ -32,6 +32,9 @@ public:
     void refresh();    //结算后，刷新菜单界面，购物车界面
     void refreshOrder();    //点击结算后，刷新订单界面
     void connectsql();
+    void showOrderDetailDialog(const Order& order); //显示订单详情
+    int id;
+    bool IsValidPhoneNumber(const QString & phoneNum);
 
 private slots:
     void updateTotalPrice();    //更新购物车中的总价钱
@@ -53,11 +56,26 @@ private slots:
 
     void on_toPayButton_clicked();
 
+    void on_changeNickButton_clicked();
+
+    void on_saveNickButton_clicked();
+
+    void on_changePhoneButton_clicked();
+
+    void on_savePhoneButton_clicked();
+
 private:
     Ui::CustomerWidget *ui;
     Order * order;
+    vector<Order> OrderVec;
     vector<Merchant> ShopVec;
     QSqlDatabase db;
+    QString username;
+    QString password;
+    QString phone;
+    QString nick;
+
+
 };
 
 #endif // CUSTOMERWIDGET_H
