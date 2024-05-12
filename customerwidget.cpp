@@ -1,6 +1,7 @@
 #include "customerwidget.h"
 #include "ui_customerwidget.h"
 #include "customerloginwindow.h"
+
 #include<QDebug>
 #include<QMessageBox>
 
@@ -39,6 +40,11 @@ CustomerWidget::CustomerWidget(int m_id,QWidget *parent) :
     ui->cartTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     // 调整表头，使其适应内容
     ui->cartTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    // 获取表头
+    QHeaderView *header3 = ui->cartTableWidget->horizontalHeader();
+
+    // 设置表头字体
+    header3->setFont(QFont("Arial", 12)); // 使用Arial字体，大小为12像素
 
 
     // 初始化订单表格
@@ -52,6 +58,12 @@ CustomerWidget::CustomerWidget(int m_id,QWidget *parent) :
     // 调整表头，使其适应内容
     ui->orderTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+
+    // 获取表头
+    QHeaderView *header4 = ui->orderTableWidget->horizontalHeader();
+
+    // 设置表头字体
+    header4->setFont(QFont("Arial", 12)); // 使用Arial字体，大小为12像素
 
     //将一些lineEdit设置为只读
     ui->shopLineEdit->setReadOnly(1);
@@ -91,6 +103,16 @@ CustomerWidget::CustomerWidget(int m_id,QWidget *parent) :
         // 将商家对象添加到商家列表中
         ShopVec.push_back(merchant);
     }
+
+    changePasswdWidget.id = id;
+    //密码修改界面返回到主界面
+    auto mainwindow_show=[&]()
+    {
+        this->show();
+        changePasswdWidget.hide();
+    };
+    connect(&changePasswdWidget,&customer_change_passwd::send_user_back,this,mainwindow_show);
+
 
 
     //先设定一组店铺
@@ -209,6 +231,11 @@ void CustomerWidget::getMenu()
     // 调整表头，使其适应内容
     ui->milkTeaTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+    // 获取表头
+    QHeaderView *header = ui->milkTeaTableWidget->horizontalHeader();
+
+    // 设置表头字体
+    header->setFont(QFont("Arial", 12)); // 使用Arial字体，大小为12像素
 
     QStringList headtext1;
     headtext1<<"序号"<<"果茶名"<<"价格"<<"库存"<<"操作";
@@ -218,6 +245,12 @@ void CustomerWidget::getMenu()
     // 设置选择模式为整行选择
     ui->fruitTeaTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->fruitTeaTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+    // 获取表头
+    QHeaderView *header2 = ui->fruitTeaTableWidget->horizontalHeader();
+
+    // 设置表头字体
+    header2->setFont(QFont("Arial", 12)); // 使用Arial字体，大小为12像素
 
     // 调整表头，使其适应内容
     ui->fruitTeaTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -395,6 +428,13 @@ void CustomerWidget::refreshOrder()
         order->date = query.value("order_date").toDateTime();
         order->state = query.value("state").toInt();
 
+        // 获取商户名称
+        QSqlQuery merchantQuery(db);
+        merchantQuery.exec(QString("SELECT name FROM Merchant WHERE merchant_id = %1").arg(order->merchant.id));
+        if (merchantQuery.next()) {
+            order->merchant.name = merchantQuery.value("name").toString();
+        }
+
         //获取订单信息，赋值给Order的FoodVec
         // 获取订单包含的菜品信息
         QSqlQuery dishQuery(db);
@@ -487,6 +527,32 @@ void CustomerWidget::showOrderDetailDialog(const Order& order)
     // 添加订单详细信息到布局中，待修改
     QLabel *label = new QLabel("订单详细信息");
     layout->addWidget(label);
+    QLabel *orderIdLabel = new QLabel("订单ID: " + QString::number(order.id));
+    layout->addWidget(orderIdLabel);
+
+    QLabel *merchantNameLabel = new QLabel("店铺名称: " + order.merchant.name);
+    layout->addWidget(merchantNameLabel);
+
+    QLabel *orderDateLabel = new QLabel("下单时间: " + order.date.toString("yyyy-MM-dd hh:mm:ss"));
+    layout->addWidget(orderDateLabel);
+
+    QLabel *stateLabel = new QLabel(QString("订单状态: ") + (order.state ? "已完成" : "进行中"));
+
+    //QLabel *stateLabel = new QLabel("订单状态: " + (order.state ? "已完成" : "未完成"));
+    layout->addWidget(stateLabel);
+
+    QLabel *deliveryWayLabel = new QLabel(QString("配送方式: ") + (order.delivery_way ? "雪王外送" : "到店自取"));
+    layout->addWidget(deliveryWayLabel);
+
+    QString orderContentStr;
+    for (const FoodInfo &food : order.FoodVec) {
+        orderContentStr += food.name + " - 价格: " + QString::number(food.price) + "\n";
+    }
+    QLabel *orderContentLabel = new QLabel(QString("订单内容: ") + orderContentStr);
+    layout->addWidget(orderContentLabel);
+
+    QLabel *totalMoneyLabel = new QLabel(QString("总额: ") + QString::number(order.m_sum, 'f', 2));
+    layout->addWidget(totalMoneyLabel);
 
     // 添加按钮到布局中
     QPushButton *closeButton = new QPushButton("关闭");
@@ -736,4 +802,10 @@ bool CustomerWidget::IsValidPhoneNumber(const QString & phoneNum)
 {
     QRegularExpression regex("^1[3456789]\\d{9}$");
         return regex.match(phoneNum).hasMatch();
+}
+
+void CustomerWidget::on_changePasswordButton_clicked()
+{
+    changePasswdWidget.show();
+    this->hide();
 }

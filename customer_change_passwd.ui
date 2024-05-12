@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>customer_change_passwd</class>
+ <widget class="QWidget" name="customer_change_passwd">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1200</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* 设置窗口背景色 */
+QWidget {
+    /*background-color: white;*/
+}
+
+/* 设置LineEdit样式 */
+QLineEdit {
+    
+    
+	font: 12pt &quot;华光大黑_CNKI&quot;;
+    border-radius: 5px;
+    padding: 4px 8px;
+}
+
+/* 设置Label样式 */
+QLabel {
+    
+    font-size: 12pt;
+    font-weight: bold;
+}
+/* 设置按钮样式 */
+QPushButton {
+    background-color: white;
+    color: black; /* 红色 */
+    border: 1px solid black;  /*红色边框 */
+    border-radius: 8px;
+    /*padding: 8px 16px;*/
+	font: 12pt &quot;华光综艺_CNKI&quot;;
+width: 4em; /* 设置按钮的宽度为字体大小的1.2倍 */
+    height: 2em; /* 设置按钮的高度为字体大小的1.2倍 */
+}
+
+QPushButton:hover {
+    background-color: #ff7875; /* 深红色 */
+    color: white;
+}
+
+QPushButton:pressed {
+    background-color: #d32f2f; /* 点击时的深红色 */
+    color: white;
+}
+/* 设置TableWidget样式 */
+QTableView {
+    background-color: white;
+    alternate-background-color: #f0f0f0; /* 浅灰色 */
+    border: none;
+}
+
+QTableView::item:selected {
+    background-color: #ff7875; /* 深红色 */
+    color: white;
+}
+QTableView::horizontalHeader {
+    font-family: Arial;
+    font-size: 12px;
+	font: 12pt &quot;华光标题黑_CNKI&quot;;
+}
+
+/* 设置TabWidget样式 */
+QTabWidget {
+    background-color: white;
+}
+
+QTabWidget::pane {
+    border: none;
+}
+
+QTabBar::tab {
+    background-color: white; /* 红色 */
+    color: black;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 8px 16px;
+	
+	
+	font: 12pt &quot;华光中长宋_CNKI&quot;;
+width: 3.5em; /* 设置按钮的宽度为字体大小的1.2倍 */
+    height: 2em; /* 设置按钮的高度为字体大小的1.2倍 */
+}
+
+QTabBar::tab:selected {
+    background-color: #ff7875; /* 深红色 */
+}
+</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QWidget" name="widget_4" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QWidget" name="widget" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="currentPasswdLabel">
+           <property name="text">
+            <string>当前密码：</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="currentPasswdLineEdit">
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_2" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="newPasswdLabel">
+           <property name="text">
+            <string>新密码 ： </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="newPasswdLineEdit">
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_3" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="confirmLabel">
+           <property name="text">
+            <string>确认密码：</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="confirmLineEdit">
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_5" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="backButton">
+        <property name="text">
+         <string>返回</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="confirmButton">
+        <property name="text">
+         <string>确认修改</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

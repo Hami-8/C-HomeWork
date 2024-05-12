@@ -7,6 +7,7 @@
 #include<QSqlDatabase>
 #include<QMessageBox>
 #include<QDebug>
+#include "customer_change_passwd.h"
 
 
 #include "order.h"
@@ -64,6 +65,8 @@ private slots:
 
     void on_savePhoneButton_clicked();
 
+    void on_changePasswordButton_clicked();
+
 private:
     Ui::CustomerWidget *ui;
     Order * order;
@@ -74,6 +77,7 @@ private:
     QString password;
     QString phone;
     QString nick;
+    customer_change_passwd changePasswdWidget;
 
 
 };

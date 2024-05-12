@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    customer_change_passwd.cpp \
     customerloginwindow.cpp \
     customerwidget.cpp \
     loginwindow.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    customer_change_passwd.h \
     customerloginwindow.h \
     customerwidget.h \
     loginwindow.h \
@@ -38,6 +40,7 @@ HEADERS += \
     widget.h
 
 FORMS += \
+    customer_change_passwd.ui \
     customerloginwindow.ui \
     customerwidget.ui \
     loginwindow.ui \
@@ -48,3 +51,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    res.qrc

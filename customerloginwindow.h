@@ -7,6 +7,9 @@
 #include<QSqlDatabase>
 #include<QMessageBox>
 #include<QDebug>
+#include <QPainter>
+#include <QStyleOption>
+
 
 
 namespace Ui {
@@ -23,6 +26,7 @@ public:
     void showCustomerWidget(); // 显示主界面
     void connectsql();
     int id;
+    void paintEvent(QPaintEvent *e);
 
 
 private slots:

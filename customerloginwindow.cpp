@@ -13,6 +13,30 @@ CustomerLoginWindow::CustomerLoginWindow(QWidget *parent) :
     connect(ui->exitButton, &QPushButton::clicked, this, &CustomerLoginWindow::on_exitButton_clicked);
     //将登录成功信号连接至顾客点餐界面
     connect(this, &CustomerLoginWindow::loginSucceeded, this,&CustomerLoginWindow::showCustomerWidget);
+
+//    //美化界面
+//    QString buttonStyleSheet = "QPushButton {"
+//                               "background-color: #4CAF50;"
+//                               "border-style: outset;"
+//                               "border-width: 2px;"
+//                               "border-radius: 10px;"
+//                               "border-color: beige;"
+//                               "font: bold 14px;"
+//                               "min-width: 10em;"
+//                               "padding: 6px;"
+//                               "}"
+//                               "QPushButton:hover {"
+//                               "background-color: #45a049;"
+//                               "}";
+//    this->setStyleSheet(buttonStyleSheet);
+}
+
+void CustomerLoginWindow::paintEvent(QPaintEvent *e)
+{
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
 void CustomerLoginWindow::connectsql()
