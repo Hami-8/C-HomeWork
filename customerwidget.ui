@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CustomerWidget</class>
+ <widget class="QWidget" name="CustomerWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1200</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* 设置窗口背景色 */
+QWidget {
+    /*background-color: white;*/
+}
+
+/* 设置LineEdit样式 */
+QLineEdit {
+    /*background-color: white;*/
+    
+	font: 12pt &quot;华光大黑_CNKI&quot;;
+    border-radius: 5px;
+    padding: 4px 8px;
+}
+
+/* 设置Label样式 */
+QLabel {
+    
+    font-size: 12pt;
+    font-weight: bold;
+}
+/* 设置按钮样式 */
+QPushButton {
+    background-color: white;
+    color: black; /* 红色 */
+    border: 1px solid black;  /*红色边框 */
+    border-radius: 8px;
+    /*padding: 8px 16px;*/
+	font: 9pt &quot;华光综艺_CNKI&quot;;
+width: 3.5em; /* 设置按钮的宽度为字体大小的1.2倍 */
+    height: 2em; /* 设置按钮的高度为字体大小的1.2倍 */
+}
+
+QPushButton:hover {
+    background-color: #ff7875; /* 深红色 */
+    color: white;
+}
+
+QPushButton:pressed {
+    background-color: #d32f2f; /* 点击时的深红色 */
+    color: white;
+}
+/* 设置TableWidget样式 */
+QTableView {
+    /*background-color: white;*/
+    alternate-background-color: #f0f0f0; /* 浅灰色 */
+    border: none;
+}
+
+QTableView::item:selected {
+    background-color: #ff7875; /* 深红色 */
+    color: white;
+}
+QTableView::horizontalHeader {
+    font-family: Arial;
+    font-size: 12px;
+	font: 12pt &quot;华光标题黑_CNKI&quot;;
+}
+
+/* 设置TabWidget样式 */
+QTabWidget {
+    /*background-color: white;*/
+}
+
+QTabWidget::pane {
+    /*border: none;*/
+}
+
+QTabBar::tab {
+    /*background-color: white;  红色 */
+    color: black;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 8px 16px;
+	
+	
+	font: 12pt &quot;华光中长宋_CNKI&quot;;
+width: 3.5em; /* 设置按钮的宽度为字体大小的1.2倍 */
+    height: 2em; /* 设置按钮的高度为字体大小的1.2倍 */
+}
+
+QTabBar::tab:selected {
+    background-color: #ff7875; /* 深红色 */
+}
+</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QTabWidget" name="customerWidget">
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="tabPosition">
+      <enum>QTabWidget::North</enum>
+     </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Rounded</enum>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <property name="elideMode">
+      <enum>Qt::ElideNone</enum>
+     </property>
+     <property name="usesScrollButtons">
+      <bool>true</bool>
+     </property>
+     <property name="documentMode">
+      <bool>false</bool>
+     </property>
+     <widget class="QWidget" name="homePageTab">
+      <attribute name="title">
+       <string> 首页</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QStackedWidget" name="homePage_stacked">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="page">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QPushButton" name="selfButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">
+/* 设置按钮样式 */
+QPushButton {
+	background-image: url(:/picture/8.jpg); /* 设置按钮的背景图像 */
+    background-repeat: no-repeat; /* 禁止背景图像重复 */
+    background-position: center; /* 设置背景图像在按钮中的位置为居中 */
+	background-size: cover; /* 让背景图像铺满整个按钮 */
+    background-color: white;
+    color: black; /* 红色 */
+    border: 1px solid black;  /*红色边框 */
+    border-radius: 8px;
+    /*padding: 8px 16px;*/
+	font: 9pt &quot;华光胖头鱼_CNKI&quot;;
+	font: 20pt &quot;华光综艺_CNKI&quot;;
+}
+
+QPushButton:hover {
+    background-color: white; /* 深红色 */
+    color: white;
+}
+
+QPushButton:pressed {
+    background-color: #d32f2f; /* 点击时的深红色 */
+    color: white;
+}</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="sendButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">/* 设置按钮样式 */
+QPushButton {
+	background-image: url(:/picture/9.jpg); /* 设置按钮的背景图像 */
+    background-repeat: no-repeat; /* 禁止背景图像重复 */
+    background-position: center; /* 设置背景图像在按钮中的位置为居中 */
+	background-size: cover; /* 让背景图像铺满整个按钮 */
+    background-color: white;
+    color: black; /* 红色 */
+    border: 1px solid black;  /*红色边框 */
+    border-radius: 8px;
+    /*padding: 8px 16px;*/
+	font: 9pt &quot;华光胖头鱼_CNKI&quot;;
+	font: 20pt &quot;华光综艺_CNKI&quot;;
+}
+
+QPushButton:hover {
+    background-color: white; /* 深红色 */
+    color: white;
+}
+
+QPushButton:pressed {
+    background-color: #d32f2f; /* 点击时的深红色 */
+    color: white;
+}</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_2">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>请选择店铺：</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="shopTableWidget"/>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_4" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QPushButton" name="homeBackButton">
+                <property name="text">
+                 <string>返回</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="selectedShopButton">
+                <property name="text">
+                 <string> 确定</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="orderFoodTab">
+      <attribute name="title">
+       <string>点餐</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QStackedWidget" name="orderStackedWidget">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="page_3">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QWidget" name="widget" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QLabel" name="shopLabel">
+                <property name="text">
+                 <string>当前店铺：</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="shopLineEdit"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTabWidget" name="menuTabWidget">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="currentIndex">
+              <number>1</number>
+             </property>
+             <widget class="QWidget" name="milkTeaTab">
+              <attribute name="title">
+               <string>醇香奶茶</string>
+              </attribute>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QTableWidget" name="milkTeaTableWidget"/>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="fruitTeaTab">
+              <attribute name="title">
+               <string>真鲜果茶</string>
+              </attribute>
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <widget class="QTableWidget" name="fruitTeaTableWidget"/>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_2" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QPushButton" name="cartButton">
+                <property name="text">
+                 <string>查看购物车</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="toPayButton">
+                <property name="text">
+                 <string>去结算</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_4">
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QLabel" name="cartLabel">
+             <property name="text">
+              <string>已选商品：</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="cartTableWidget"/>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_6" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="sumLabel">
+                <property name="text">
+                 <string>总额：</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLCDNumber" name="sumLcdNumber">
+                <property name="font">
+                 <font>
+                  <family>Ubuntu</family>
+                  <pointsize>11</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(204, 0, 0);
+font: 11pt &quot;Ubuntu&quot;;</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_5" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QPushButton" name="backToOrderButton">
+                <property name="text">
+                 <string>返回</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="payButton">
+                <property name="text">
+                 <string>结算</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="orderTab">
+      <attribute name="title">
+       <string> 订单</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
+        <widget class="QTableWidget" name="orderTableWidget"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="myTab">
+      <attribute name="title">
+       <string>我的</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QWidget" name="widget_8" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QWidget" name="widget_7" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>300</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">image: url(://picture/logo2.png);</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="widget_3" native="true">
+            <layout class="QGridLayout" name="gridLayout">
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="nickLineEdit"/>
+             </item>
+             <item row="0" column="2">
+              <widget class="QPushButton" name="changeNickButton">
+               <property name="text">
+                <string>修改</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QPushButton" name="saveNickButton">
+               <property name="text">
+                <string>保存</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="nickLabel">
+               <property name="text">
+                <string>昵称：</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="phoneLineEdit"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="phoneLabel">
+               <property name="text">
+                <string>电话：</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="3">
+              <widget class="QPushButton" name="savePhoneButton">
+               <property name="text">
+                <string>保存</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QPushButton" name="changePhoneButton">
+               <property name="text">
+                <string>修改</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="changePasswordButton">
+         <property name="text">
+          <string>修改密码</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
