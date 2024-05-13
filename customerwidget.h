@@ -26,13 +26,13 @@ public:
     explicit CustomerWidget(int m_id,QWidget *parent = nullptr);
     ~CustomerWidget();
     //void showWidget(); // 显示主界面
-
+    void connectsql();
     void getShop(vector<Merchant> ShopVec);   //打印附近店铺界面
-    void getMenu();
-    void addToCart(int row,QChar type);
+    void getMenu();    //打印菜单
+    void addToCart(int row,QChar type);    //添加至购物车
     void refresh();    //结算后，刷新菜单界面，购物车界面
     void refreshOrder();    //点击结算后，刷新订单界面
-    void connectsql();
+
     void showOrderDetailDialog(const Order& order); //显示订单详情
     int id;
     bool IsValidPhoneNumber(const QString & phoneNum);

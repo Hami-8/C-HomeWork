@@ -122,9 +122,9 @@ CustomerWidget::CustomerWidget(int m_id,QWidget *parent) :
 //    time1.openingTime = openingTime;
 //    time1.closingTime = closingTime;
     Merchant m1,m2;
-    m1.name="店铺1";  m2.name = "店铺2";
+    m1.name="蜜雪冰城天津总店";  m2.name = "蜜雪冰城全国总店";
     m1.distance=1.6; m2.distance = 1.3;
-    m1.time = "time1";  m2.time = "time2";
+    m1.time = "9:00至23:00";  m2.time = "10:00至21:00";
     Food f1; f1.name = "奶茶1";f1.number ="A001";f1.price=12.3;f1.quantity = 100;
     Food f2; f2.name = "果茶1";f2.number ="B001";f2.price=11.2;f2.quantity = 90;
     Food f3; f3.name = "奶茶2";f3.number ="A002";f3.price=9.9;f3.quantity = 2;
